@@ -1,1 +1,1 @@
-custom tetris game i did as a school project 
+custom tetris game I did as a school project 
