@@ -1,1 +1,1 @@
-custom tetris game I did as a school project 
+A custom tetris game I did for a school project using sfml. 
