@@ -6,7 +6,7 @@ Tetriminos::Tetriminos() {
 
 Tetriminos::Tetriminos(tetrimino_enum tet_shape) {
     position = {3, 0};
-    
+
 
     Grid temp_grid;
     std::vector<sf::Color> colors_list = temp_grid.getCellColors();
@@ -98,14 +98,14 @@ Tetriminos::Tetriminos(tetrimino_enum tet_shape) {
 
 void Tetriminos::Draw(sf::RenderWindow& window)
 {
-    for(int row = 0; row < shapeMatrix.size(); row++)
+    for(size_t row = 0; row < shapeMatrix.size(); row++)
     {
-        for(int col = 0; col < shapeMatrix[0].size(); col++)
+        for(size_t col = 0; col < shapeMatrix[0].size(); col++)
         {
             int cellColorVal = shapeMatrix[row][col];
             sf::RectangleShape cell;
             cell.setSize(sf::Vector2f(cell_size - 1, cell_size - 1));
-            cell.setPosition((col + position.x) * cell_size + 201, (row + position.y) * cell_size + 11);
+            cell.setPosition({static_cast<float>((col + position.x) * cell_size + 201), static_cast<float>((row + position.y) * cell_size + 11)});
             if(cellColorVal != 0)
             {
             cell.setFillColor(this->color);
@@ -118,14 +118,11 @@ void Tetriminos::Draw(sf::RenderWindow& window)
 
         }
     }
-    
+
 }
 
-void Tetriminos::Move(int x, int y) { // row and column offset gives the amount shift the matrix for  
+void Tetriminos::Move(int x, int y) { // row and column offset gives the amount shift the matrix for
     this->position.x += x;
     this->position.y += y;
-    
+
 }
-
-
-

@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <optional>
 #include "board.hpp"
 #include "pieces.hpp"
 #include <SFML/Audio.hpp>
@@ -16,12 +17,12 @@ private:
     Tetriminos next_block;
     std::vector<sf::Color> colorLs;
     sf::Music music;
-    sf::Sound rotate;
+    std::optional<sf::Sound> rotate;
     sf::SoundBuffer buffer;
     bool is_holding = false;
     Tetriminos holdBlock;
-   
-     
+
+
 public:
     Game();
     Grid grid;
@@ -29,13 +30,13 @@ public:
     Tetriminos GetRandomTet();
     void Draw(sf::RenderWindow& window);
     void HandleInput(sf::Keyboard::Key key);
-    void MoveBLockLeft();
-    void MoveBLockRight();
-    void MoveBLockDown();
-    void RotateBlock(); 
+    void MoveBlockLeft();
+    void MoveBlockRight();
+    void MoveBlockDown();
+    void RotateBlock();
     void BringTetriminoBack();
     void EndReached();
-    bool BlockFits_vertical();     
+    bool BlockFits_vertical();
     bool BlockFits_horizontal_R();
     bool BlockFits_horizontal_L();
     void Reset();
@@ -48,12 +49,10 @@ public:
     void Draw_Rotation_not_possible(sf::RenderWindow& window);
     void Hold();
     void DrawHold(sf::RenderWindow& window);
-    void FreeFall();   
-    void OpenProtal(); 
+    void FreeFall();
+    void OpenPortal();
     void DrawPortal(sf::RenderWindow& window);
     int RandomRow;
     int RandomColumn;
 
 };
-
-

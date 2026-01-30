@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include <vector>
 #include <iostream>
+#include <optional>
 
 
 class Grid {
@@ -19,10 +20,10 @@ public:
     void clear_sound();
     int rows_cleared = 0;
     int game_speed = 400;
-    
+
 
 private:
-    sf::Sound clear;
+    std::optional<sf::Sound> clear;
     sf::SoundBuffer buffer;
     bool is_row_full(int row);
     void clear_row(int row);
@@ -31,8 +32,8 @@ private:
     int num_rows;
     int num_columns;
     int cell_size;
-    std::vector<sf::Color> colors;  
+    std::vector<sf::Color> colors;
 
-    friend class Tetriminos;  
+    friend class Tetriminos;
     friend class Game;
 };

@@ -6,8 +6,6 @@ Grid::Grid() {
     cell_size = 30;
     initialize();
     colors = getCellColors();
-    void clear_sound();
-
 }
 
 void Grid::initialize()
@@ -19,13 +17,13 @@ void Grid::initialize()
     }
 }
 
-void Grid::printGridMatrix() 
+void Grid::printGridMatrix()
 {
     for(int row= 0; row < num_rows; row++) {
         for(int column = 0; column < num_columns; column++) {
             std::cout << grid_matrix[row][column] << " ";
         }
-        std::cout << std::endl; 
+        std::cout << std::endl;
     }
 }
 
@@ -35,7 +33,7 @@ void Grid::Draw(sf::RenderWindow& window) {
             int cellvalue = grid_matrix[row][column];
             sf::RectangleShape rectangle;
             rectangle.setSize(sf::Vector2f(cell_size - 1, cell_size - 1 ));
-            rectangle.setPosition(column * cell_size + 201, row * cell_size + 11);
+            rectangle.setPosition({static_cast<float>(column * cell_size + 201), static_cast<float>(row * cell_size + 11)});
             rectangle.setFillColor(colors[cellvalue]);
             window.draw(rectangle);
 
@@ -77,14 +75,14 @@ bool Grid::is_row_full(int row) {
             return false;
         }
     }
-    return true; 
+    return true;
 }
 
 void Grid::clear_row(int row) {
     for(int column = 0; column < num_columns; column++) {
         grid_matrix[row][column] = 0;
     }
-    rows_cleared++;    
+    rows_cleared++;
     game_speed -= 40;
 }
 
@@ -102,50 +100,52 @@ void Grid::MoveRowDown(int row, int num) {
         if(is_row_full(row)) {
             clear_row(row);
             completed++;
-            clear.play();
+            if(clear) clear->play();
         }
         else if(completed > 0) {
             MoveRowDown(row, completed);
         }
-    } 
+    }
     return completed;
  }
 
 
 void Grid::DrawText(sf::RenderWindow& window) {
-    
+
     sf::RectangleShape rectangle;
     rectangle.setSize(sf::Vector2f(180, 50));
     rectangle.setFillColor(sf::Color(135, 206, 250));
-    rectangle.setPosition(10, 60);
-    
+    rectangle.setPosition({10.f, 60.f});
+
     sf::RectangleShape rec2;
     rec2.setSize(sf::Vector2f(180, 180));
-    rec2.setPosition(10, 230);
+    rec2.setPosition({10.f, 230.f});
     rec2.setFillColor(sf::Color(135, 206, 250));
-    
+
     sf::RectangleShape rec3;
     rec3.setSize(sf::Vector2f(180, 180));
     rec3.setFillColor(sf::Color(135, 206, 250));
-    rec3.setPosition(520, 230);
+    rec3.setPosition({520.f, 230.f});
 
     sf::Font font;
-    font.loadFromFile("source/fonts/04B_20__.TTF");
+    if (!font.openFromFile("04B_20__.TTF")) {
+        return;
+    }
 
-    sf::Text text_score("Score", font, 20);
-    text_score.setPosition(30, 30);
+    sf::Text text_score(font, "Score", 20);
+    text_score.setPosition({30.f, 30.f});
     text_score.setFillColor(sf::Color(0, 0, 130));
 
-    sf::Text text_hold("Hold", font, 20);
-    text_hold.setPosition(30, 200);
+    sf::Text text_hold(font, "Hold", 20);
+    text_hold.setPosition({30.f, 200.f});
     text_hold.setFillColor(sf::Color(0, 0, 130));
-    
-    sf::Text text_preview("Preview", font, 20);
-    text_preview.setPosition(520, 200);
+
+    sf::Text text_preview(font, "Preview", 20);
+    text_preview.setPosition({520.f, 200.f});
     text_preview.setFillColor(sf::Color(0, 0, 130));
 
-    sf::Text controls("A S D - control \n W - rotate \n Q - hold", font, 10);
-    controls.setPosition(520, 520);
+    sf::Text controls(font, "A S D - control \n W - rotate \n Q - hold", 10);
+    controls.setPosition({520.f, 520.f});
     controls.setFillColor(sf::Color::Black);
 
     window.draw(rectangle);
@@ -157,23 +157,25 @@ void Grid::DrawText(sf::RenderWindow& window) {
     window.draw(controls);
 
 }
- 
+
 
 void Grid::GameOver(sf::RenderWindow& window) {
     sf::RectangleShape rec;
     rec.setSize(sf::Vector2f(520, 100));
     rec.setFillColor(sf::Color::Black);
-    rec.setPosition(90, 170);
-    
-    sf::Font font;
-    font.loadFromFile("source/fonts/04B_20__.TTF");
+    rec.setPosition({90.f, 170.f});
 
-    sf::Text Game_over_text("GAME OVER", font, 40);
-    Game_over_text.setPosition(120, 200);
+    sf::Font font;
+    if (!font.openFromFile("04B_20__.TTF")) {
+        return;
+    }
+
+    sf::Text Game_over_text(font, "GAME OVER", 40);
+    Game_over_text.setPosition({120.f, 200.f});
     Game_over_text.setFillColor(sf::Color::Red);
 
-    sf::Text restart_txt("ENTER TO RESTART", font, 8);
-    restart_txt.setPosition(10, 500);
+    sf::Text restart_txt(font, "ENTER TO RESTART", 8);
+    restart_txt.setPosition({10.f, 500.f});
     restart_txt.setFillColor(sf::Color::Red);
 
     window.draw(rec);
@@ -184,6 +186,7 @@ void Grid::GameOver(sf::RenderWindow& window) {
 }
 
 void Grid::clear_sound() {
-    buffer.loadFromFile("source/audio/clear.wav");
-    clear.setBuffer(buffer);
+    if (buffer.loadFromFile("clear.wav")) {
+        clear.emplace(buffer);
+    }
 }

@@ -19,7 +19,7 @@ bool EventTriggered(double interval) {
 
 int main()
 {
-  sf::RenderWindow window(sf::VideoMode(700, 620), "My window");
+  sf::RenderWindow window(sf::VideoMode({700, 620}), "My window");
   window.setFramerateLimit(60);
 
   Game game = Game();
@@ -27,26 +27,24 @@ int main()
 
   while (window.isOpen())
   {
-    sf::Event event;
-    while (window.pollEvent(event))
+    while (const std::optional event = window.pollEvent())
     {
-      if (event.type == sf::Event::Closed){
+      if (event->is<sf::Event::Closed>()){
         window.close();
       }
 
-      if(event.type == sf::Event::KeyPressed){
-        sf::Keyboard::Key key = event.key.code;
-        game.HandleInput(key);
+      if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()){
+        game.HandleInput(keyPressed->code);
       }
 
     }
 
     if(EventTriggered(game.grid.game_speed)) {
-        game.MoveBLockDown();
+        game.MoveBlockDown();
     }
-      
+
     window.clear(sf::Color(255, 182, 193));
-  
+
     game.Draw(window);
     window.display();
 
