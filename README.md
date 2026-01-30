@@ -76,7 +76,7 @@ This adds an element of unpredictability and rewards strategic positioning.
 brew install sfml
 
 # Clone the repository
-git clone https://github.com/yourusername/CustomTetrisGame.git
+git clone https://github.com/beyzaelbb/CustomTetrisGame.git
 cd CustomTetrisGame
 
 # Build and run
@@ -91,7 +91,7 @@ g++ -std=c++17 -o tetris *.cpp -I/opt/homebrew/include -L/opt/homebrew/lib -lsfm
 sudo apt-get install libsfml-dev
 
 # Clone and build
-git clone https://github.com/yourusername/CustomTetrisGame.git
+git clone https://github.com/beyzaelbb/CustomTetrisGame.git
 cd CustomTetrisGame
 g++ -std=c++17 -o tetris *.cpp -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 ./tetris
